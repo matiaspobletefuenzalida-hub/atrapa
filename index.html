@@ -23,15 +23,11 @@
         body {
             background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
             font-family: var(--nunito);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow-x: hidden;
         }
 
-        /* --- HEADER INSTITUCIONAL --- */
+        /* --- HEADER --- */
         .app-header {
             width: 100%; background: white; padding: 15px 0;
             display: flex; justify-content: center;
@@ -40,22 +36,15 @@
             position: sticky; top: 0; z-index: 100;
         }
         .header-container {
-            width: 95%; max-width: 1000px;
-            display: flex; justify-content: space-between; align-items: center;
+            width: 95%; max-width: 1000px; display: flex; justify-content: space-between; align-items: center;
         }
         
-        /* Animación para los logos del membrete */
         .app-logo { 
-            height: 55px; 
-            border-radius: 10px; 
+            height: 55px; border-radius: 10px; 
             animation: floatLogo 3s ease-in-out infinite;
             filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1));
         }
-        
-        /* Pequeño desfase para que no floten al mismo tiempo */
-        .app-logo.right-logo {
-            animation-delay: 1.5s;
-        }
+        .app-logo.right-logo { animation-delay: 1.5s; }
 
         @keyframes floatLogo {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -66,84 +55,85 @@
         .b-letter {
             width: 28px; height: 28px; color: white;
             display: flex; align-items: center; justify-content: center;
-            font-family: var(--fredoka); font-size: 16px;
-            border-radius: 6px; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2);
+            font-family: var(--fredoka); font-size: 16px; border-radius: 6px; 
+            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2);
             animation: jump 2s infinite ease-in-out;
         }
         @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         /* --- CONTENEDOR PRINCIPAL --- */
         .app-main {
-            padding: 40px 20px;
-            display: flex; flex-direction: column; align-items: center;
-            width: 100%; max-width: 1200px;
+            padding: 30px 20px; display: flex; flex-direction: column; align-items: center;
+            width: 100%; max-width: 1000px;
         }
 
         #game-board {
-            position: relative;
-            background: var(--glass);
-            border: 8px solid white;
-            border-radius: 40px;
+            background: var(--glass); border: 8px solid white; border-radius: 40px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            display: flex; gap: 20px; padding: 25px;
-            backdrop-filter: blur(10px);
+            display: flex; gap: 20px; padding: 25px; backdrop-filter: blur(10px);
+            width: 100%; justify-content: center;
         }
 
-        /* --- PANELES LATERALES --- */
-        .side-panel { width: 160px; display: flex; flex-direction: column; gap: 15px; }
+        .side-panel { width: 140px; display: flex; flex-direction: column; gap: 15px; }
         .widget {
-            background: white; padding: 15px; border-radius: 20px;
-            text-align: center; box-shadow: 0 5px 10px rgba(0,0,0,0.03);
-            border: 2px solid #f0f0f0;
+            background: white; padding: 15px; border-radius: 20px; text-align: center; 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.03); border: 2px solid #f0f0f0;
         }
-        .widget h3 { margin: 0 0 5px 0; font-family: var(--fredoka); font-size: 0.8rem; color: #999; text-transform: uppercase; }
-        .val { font-size: 1.8rem; font-weight: 900; color: var(--primary); }
+        .widget h3 { margin: 0 0 5px 0; font-family: var(--fredoka); font-size: 0.8rem; color: #999; }
+        .val { font-size: 1.6rem; font-weight: 900; color: var(--primary); }
 
-        /* --- CANVAS --- */
         #canvas-wrapper {
-            position: relative;
-            border-radius: 25px;
-            overflow: hidden;
-            border: 4px solid #eee;
-            background: #fff;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.05);
+            position: relative; border-radius: 25px; overflow: hidden;
+            border: 4px solid #eee; background: #fff; box-shadow: inset 0 0 30px rgba(0,0,0,0.05);
         }
         canvas { display: block; background: #fafafa; cursor: none; }
 
-        /* --- OVERLAYS --- */
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.96);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 10; text-align: center; padding: 30px;
+            background: rgba(255,255,255,0.96); display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 10; text-align: center; padding: 30px;
         }
 
         .btn-start {
             background: linear-gradient(135deg, var(--success), #27ae60);
-            color: white; border: none; padding: 20px 50px;
-            border-radius: 100px; font-family: var(--fredoka); font-size: 1.8rem;
-            cursor: pointer; box-shadow: 0 10px 0 #1e8449, 0 15px 30px rgba(46, 204, 113, 0.4);
-            transition: 0.2s;
-            animation: pulse-green 2s infinite;
+            color: white; border: none; padding: 15px 40px; border-radius: 100px; 
+            font-family: var(--fredoka); font-size: 1.5rem; cursor: pointer; 
+            box-shadow: 0 8px 0 #1e8449; transition: 0.2s; animation: pulse-green 2s infinite;
         }
-        .btn-start:hover { transform: scale(1.05); }
-        .btn-start:active { transform: translateY(8px); box-shadow: 0 2px 0 #1e8449; }
+        .btn-start:active { transform: translateY(6px); box-shadow: 0 2px 0 #1e8449; }
 
         @keyframes pulse-green {
-            0% { transform: scale(1); box-shadow: 0 10px 0 #1e8449, 0 0 0 0 rgba(46, 204, 113, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 10px 0 #1e8449, 0 0 0 20px rgba(46, 204, 113, 0); }
-            100% { transform: scale(1); box-shadow: 0 10px 0 #1e8449, 0 0 0 0 rgba(46, 204, 113, 0); }
+            0% { transform: scale(1); box-shadow: 0 8px 0 #1e8449, 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 8px 0 #1e8449, 0 0 0 15px rgba(46, 204, 113, 0); }
+            100% { transform: scale(1); box-shadow: 0 8px 0 #1e8449, 0 0 0 0 rgba(46, 204, 113, 0); }
         }
 
-        /* --- FOOTER --- */
-        .app-footer { width: 100%; padding: 20px; background: white; text-align: center; margin-top: auto; border-top: 2px solid #eee; color: #666; }
+        /* --- GLOSARIO --- */
+        .glossary-section {
+            width: 100%; margin-top: 40px; padding: 20px;
+            background: white; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .glossary-title {
+            text-align: center; font-family: var(--fredoka); color: var(--primary); 
+            font-size: 1.8rem; margin-top: 0;
+        }
+        .glossary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
+        }
+        .glossary-card {
+            background: #f8f9fa; border: 2px solid #eee; border-radius: 15px; 
+            padding: 15px; text-align: center; display: flex; flex-direction: column; align-items: center;
+        }
+        .g-icon { font-size: 2.5rem; margin-bottom: 5px; font-weight: bold; }
+        .g-name { font-family: var(--fredoka); color: #333; margin: 0; font-size: 1.1rem; }
+        .g-desc { color: #666; font-size: 0.85rem; margin: 5px 0 0 0; }
 
-        /* Móvil */
+        .app-footer { width: 100%; padding: 20px; background: white; text-align: center; margin-top: auto; color: #666; }
+
         @media (max-width: 900px) {
-            #game-board { flex-direction: column; width: 95vw; }
-            .side-panel { width: 100%; flex-direction: row; }
-            .widget { flex: 1; padding: 10px; }
-            .val { font-size: 1.4rem; }
+            #game-board { flex-direction: column; align-items: center; }
+            .side-panel { width: 100%; flex-direction: row; justify-content: center; }
+            .widget { flex: 1; max-width: 150px; }
         }
     </style>
 </head>
@@ -163,44 +153,36 @@
 <main class="app-main">
     <div id="game-board">
         <aside class="side-panel">
-            <div class="widget">
-                <h3>Vidas</h3>
-                <div id="lives-ui" class="val" style="color: var(--secondary);">❤❤❤</div>
-            </div>
-            <div class="widget">
-                <h3>Combo</h3>
-                <div id="combo-ui" class="val">x1</div>
-            </div>
+            <div class="widget"><h3>Vidas</h3><div id="lives-ui" class="val" style="color: var(--secondary);">❤❤❤</div></div>
+            <div class="widget"><h3>Combo</h3><div id="combo-ui" class="val">x1</div></div>
         </aside>
 
         <div id="canvas-wrapper">
             <div id="start-screen" class="overlay">
-                <h1 style="font-family: var(--fredoka); color: var(--primary); font-size: 2.5rem; margin-bottom: 5px;">¡ATRAPA EL RITMO!</h1>
-                <p style="color: #666; font-weight: bold; margin-bottom: 30px;">Mueve la barra para recoger la música.<br>¡Ojo con las disonancias!</p>
+                <h1 style="font-family: var(--fredoka); color: var(--primary); font-size: 2.2rem; margin-bottom: 5px;">¡ATRAPA EL RITMO!</h1>
+                <p style="color: #666; font-weight: bold;">Usa la barra para atrapar las figuras musicales.<br>¡Evita los silencios!</p>
                 <button class="btn-start" onclick="initGame()">¡COMENZAR!</button>
             </div>
-
             <div id="game-over" class="overlay" style="display:none;">
-                <h1 style="font-family: var(--fredoka); color: var(--secondary); font-size: 3rem;">FIN DEL CONCIERTO</h1>
+                <h1 style="font-family: var(--fredoka); color: var(--secondary); font-size: 2.5rem;">FIN DEL CONCIERTO</h1>
                 <p style="margin:0; color: #555; font-weight: bold;">Puntuación Final</p>
-                <div class="val" id="final-score" style="font-size: 4rem; margin: 10px 0 25px 0;">0</div>
-                <button class="btn-start" onclick="initGame()" style="background: var(--primary); box-shadow: 0 10px 0 #2980b9;">REINTENTAR</button>
+                <div class="val" id="final-score" style="font-size: 3.5rem; margin: 10px 0 20px 0;">0</div>
+                <button class="btn-start" onclick="initGame()" style="background: var(--primary); box-shadow: 0 8px 0 #2980b9;">REINTENTAR</button>
             </div>
-
-            <canvas id="gameCanvas" width="450" height="550"></canvas>
+            <canvas id="gameCanvas" width="400" height="500"></canvas>
         </div>
 
         <aside class="side-panel">
-            <div class="widget">
-                <h3>Puntos</h3>
-                <div id="score-ui" class="val">0</div>
-            </div>
-            <div class="widget">
-                <h3>Tempo</h3>
-                <div id="tempo-ui" class="val" style="font-size: 1.2rem;">Adagio</div>
-            </div>
+            <div class="widget"><h3>Puntos</h3><div id="score-ui" class="val">0</div></div>
+            <div class="widget"><h3>Tempo</h3><div id="tempo-ui" class="val" style="font-size: 1.1rem;">Adagio</div></div>
         </aside>
     </div>
+
+    <section class="glossary-section">
+        <h2 class="glossary-title">Glosario Musical</h2>
+        <div class="glossary-grid" id="glossary-container">
+            </div>
+    </section>
 </main>
 
 <footer class="app-footer">
@@ -209,72 +191,84 @@
 </footer>
 
 <script>
-    // --- MOTOR DE AUDIO ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Cargar logo para el atrapador
+    const schoolLogo = new Image();
+    schoolLogo.src = 'logo2.jpg';
+
+    // --- DATOS MUSICALES ---
+    const musicalItems = [
+        { char: '♩', pts: 10, label: 'Negra', color: '#4a90e2', desc: 'Vale 1 tiempo.' },
+        { char: '♪', pts: 15, label: 'Corchea', color: '#9b59b6', desc: 'Vale medio tiempo.' },
+        { char: '♫', pts: 20, label: 'Doble Corchea', color: '#2ecc71', desc: 'Dos corcheas unidas.' },
+        { char: '♬', pts: 30, label: '¡Galopa!', color: '#e67e22', special: true, desc: 'Corchea + 2 Semicorcheas.' },
+        { char: '𝅘𝅥𝅰', pts: 40, label: '¡Saltillo!', color: '#f1c40f', special: true, desc: 'Corchea con punto + Semicorchea.' },
+        { char: '♭', pts: 15, label: 'Bemol', color: '#1abc9c', desc: 'Baja la nota medio tono.' },
+        { char: '♯', pts: 15, label: 'Sostenido', color: '#34495e', desc: 'Sube la nota medio tono.' }
+    ];
+    
+    // Los enemigos ahora son silencios musicales
+    const traps = [
+        { char: '𝄽', label: 'Silencio', color: '#ff5e57', desc: 'Silencio de negra (¡Resta vida!).' },
+        { char: '𝄾', label: 'Silencio', color: '#ff5e57', desc: 'Silencio de corchea (¡Resta vida!).' }
+    ];
+
+    // Llenar Glosario
+    const glosarioContainer = document.getElementById('glossary-container');
+    [...musicalItems, ...traps].forEach(item => {
+        glosarioContainer.innerHTML += `
+            <div class="glossary-card">
+                <div class="g-icon" style="color: ${item.color}">${item.char}</div>
+                <h4 class="g-name">${item.label}</h4>
+                <p class="g-desc">${item.desc}</p>
+            </div>
+        `;
+    });
+
     let audioCtx;
     function playNote(freq, dur = 0.2, type = 'sine') {
         if (!audioCtx) return;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
         osc.connect(gain); gain.connect(audioCtx.destination);
         osc.start(); osc.stop(audioCtx.currentTime + dur);
     }
 
-    // --- CONFIGURACIÓN ---
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    let state = { active: false, score: 0, lives: 3, combo: 0, items: [], particles: [], texts: [], speed: 2.5, spawnRate: 1000, lastSpawn: 0, bgOffset: 0 };
 
-    const musicalItems = [
-        { char: '♩', pts: 10, label: 'Negra', color: '#4a90e2' },
-        { char: '♪', pts: 15, label: 'Corchea', color: '#9b59b6' },
-        { char: '♫', pts: 20, label: 'Doble Corchea', color: '#2ecc71' },
-        { char: '♬', pts: 30, label: '¡GALOPA!', color: '#e67e22', special: true },
-        { char: '𝅘𝅥𝅰', pts: 40, label: '¡SALTILLO!', color: '#f1c40f', special: true },
-        { char: '♭', pts: 15, label: 'Bemol', color: '#1abc9c' },
-        { char: '♯', pts: 15, label: 'Sostenido', color: '#34495e' }
-    ];
-    const traps = ['✖', '⚡', 'Ø'];
+    // JUGADOR: Línea horizontal notoria
+    const player = { x: 130, y: 440, w: 140, h: 25, targetX: 130 };
 
-    let state = {
-        active: false, score: 0, lives: 3, combo: 0,
-        items: [], particles: [], texts: [],
-        speed: 2.5, spawnRate: 1000, lastSpawn: 0, bgOffset: 0
-    };
-
-    // EL JUGADOR: Una barra horizontal ancha para atrapar mejor
-    const player = { x: 175, y: 480, w: 100, h: 20, targetX: 175 };
-
-    // --- CLASES ---
     class FallingItem {
         constructor() {
             this.isTrap = Math.random() < 0.2;
-            const data = this.isTrap ? null : musicalItems[Math.floor(Math.random() * musicalItems.length)];
-            this.char = this.isTrap ? traps[Math.floor(Math.random() * traps.length)] : data.char;
+            const data = this.isTrap ? traps[Math.floor(Math.random() * traps.length)] : musicalItems[Math.floor(Math.random() * musicalItems.length)];
+            
+            this.char = data.char;
             this.pts = this.isTrap ? 0 : data.pts;
-            this.label = this.isTrap ? '¡Disonancia!' : data.label;
-            this.color = this.isTrap ? '#ff5e57' : data.color;
+            this.label = this.isTrap ? '¡Silencio!' : data.label;
+            this.color = data.color;
             this.isSpecial = !this.isTrap && data.special;
+            
             this.x = Math.random() * (canvas.width - 40) + 20;
             this.y = -50;
             this.vel = state.speed + Math.random();
             this.rot = 0;
-            this.rotV = (Math.random() - 0.5) * 0.1;
+            this.rotV = (Math.random() - 0.5) * 0.05;
         }
         update() { this.y += this.vel; this.rot += this.rotV; }
         draw() {
             ctx.save();
-            ctx.translate(this.x, this.y);
-            ctx.rotate(this.rot);
+            ctx.translate(this.x, this.y); ctx.rotate(this.rot);
             ctx.fillStyle = this.color;
-            ctx.font = `bold ${this.isSpecial ? '45px' : '35px'} Nunito`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            // Sombra para dar relieve
-            ctx.shadowColor = 'rgba(0,0,0,0.2)';
-            ctx.shadowBlur = 5; ctx.shadowOffsetY = 2;
+            ctx.font = `bold ${this.isSpecial ? '40px' : '30px'} Nunito`;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 2;
             ctx.fillText(this.char, 0, 0);
             ctx.restore();
         }
@@ -283,8 +277,7 @@
     class Particle {
         constructor(x, y, color) {
             this.x = x; this.y = y; this.color = color;
-            this.vx = (Math.random() - 0.5) * 10;
-            this.vy = (Math.random() - 0.5) * 10;
+            this.vx = (Math.random() - 0.5) * 8; this.vy = (Math.random() - 0.5) * 8;
             this.alpha = 1;
         }
         update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.03; }
@@ -298,101 +291,92 @@
 
     class FloatingText {
         constructor(x, y, txt, color) {
-            this.x = x; this.y = y; this.txt = txt; this.color = color;
-            this.alpha = 1;
+            this.x = x; this.y = y; this.txt = txt; this.color = color; this.alpha = 1;
         }
         update() { this.y -= 1.5; this.alpha -= 0.02; }
         draw() {
             ctx.globalAlpha = Math.max(0, this.alpha);
             ctx.fillStyle = this.color;
-            ctx.font = 'bold 20px Fredoka One';
+            ctx.font = 'bold 18px Fredoka One';
             ctx.textAlign = 'center';
             ctx.shadowColor = 'white'; ctx.shadowBlur = 3;
             ctx.fillText(this.txt, this.x, this.y);
-            ctx.shadowBlur = 0;
-            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0; ctx.globalAlpha = 1;
         }
     }
 
-    // --- DIBUJAR PENTAGRAMA DE FONDO ---
     function drawBackground() {
         state.bgOffset += 0.5 * (state.speed / 2.5);
         if (state.bgOffset > 50) state.bgOffset = 0;
-
-        ctx.strokeStyle = 'rgba(0,0,0,0.03)';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(0,0,0,0.04)'; ctx.lineWidth = 2;
         for(let j = -1; j < canvas.height / 50 + 2; j++) {
             for(let i = 0; i < 5; i++) {
                 ctx.beginPath();
                 let yPos = j * 120 + i * 15 + state.bgOffset;
-                ctx.moveTo(0, yPos);
-                ctx.lineTo(canvas.width, yPos);
-                ctx.stroke();
+                ctx.moveTo(0, yPos); ctx.lineTo(canvas.width, yPos); ctx.stroke();
             }
         }
     }
 
-    // --- DIBUJAR EL JUGADOR (ATRAPADOR HORIZONTAL) ---
     function drawPlayer() {
         ctx.save();
         // Sombra de la barra
-        ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 10;
-        ctx.shadowOffsetY = 5;
-
-        // Cuerpo principal
+        ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4;
+        
+        // Base de la barra (Línea horizontal gruesa)
         ctx.fillStyle = 'var(--primary)';
-        ctx.beginPath();
-        ctx.roundRect(player.x, player.y, player.w, player.h, 10);
-        ctx.fill();
-
-        // Brillo superior para darle efecto 3D
+        ctx.beginPath(); ctx.roundRect(player.x, player.y, player.w, player.h, 12); ctx.fill();
+        
+        // Brillo superior
+        ctx.fillStyle = 'rgba(255,255,255,0.3)';
+        ctx.beginPath(); ctx.roundRect(player.x + 4, player.y + 2, player.w - 8, player.h / 2.5, 6); ctx.fill();
         ctx.shadowColor = 'transparent';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-        ctx.beginPath();
-        ctx.roundRect(player.x + 5, player.y + 2, player.w - 10, player.h / 2.5, 5);
-        ctx.fill();
+
+        // Dibujar el Logo incrustado en el centro de la barra
+        if (schoolLogo.complete && schoolLogo.naturalWidth > 0) {
+            const logoSize = 38; 
+            const logoX = player.x + (player.w / 2) - (logoSize / 2);
+            const logoY = player.y + (player.h / 2) - (logoSize / 2);
+            
+            // Borde blanco circular para el logo
+            ctx.fillStyle = 'white';
+            ctx.beginPath(); ctx.arc(logoX + logoSize/2, logoY + logoSize/2, (logoSize/2) + 3, 0, Math.PI*2); ctx.fill();
+            
+            // Recorte circular y dibujo de la imagen
+            ctx.save();
+            ctx.beginPath(); ctx.arc(logoX + logoSize/2, logoY + logoSize/2, logoSize/2, 0, Math.PI*2); ctx.clip();
+            ctx.drawImage(schoolLogo, logoX, logoY, logoSize, logoSize);
+            ctx.restore();
+        }
         ctx.restore();
     }
 
-    // --- CICLO DE JUEGO ---
     function loop(time) {
         if (!state.active) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         drawBackground();
 
-        // Suavizar movimiento del jugador
         player.x += (player.targetX - player.x) * 0.25;
         drawPlayer();
 
-        // Aparecer items
         if (time - state.lastSpawn > state.spawnRate) {
-            state.items.push(new FallingItem());
-            state.lastSpawn = time;
+            state.items.push(new FallingItem()); state.lastSpawn = time;
         }
 
-        // Procesar items
         state.items.forEach((it, i) => {
             it.update(); it.draw();
-            
-            // Colisión con la nueva barra (más ancha y precisa)
+            // Colisión con la barra
             if (it.y + 15 > player.y && it.y - 15 < player.y + player.h && 
                 it.x > player.x && it.x < player.x + player.w) {
-                
-                if (it.isTrap) handleHitTrap();
-                else handleCatch(it);
-                
+                if (it.isTrap) handleHitTrap(); else handleCatch(it);
                 state.items.splice(i, 1);
-            }
-            // Fuera de pantalla
-            else if (it.y > canvas.height + 30) {
+            } else if (it.y > canvas.height + 30) {
                 if (!it.isTrap) { state.combo = 0; updateUI(); }
                 state.items.splice(i, 1);
             }
         });
 
-        // Partículas y Textos
         state.particles.forEach((p, i) => { p.update(); p.draw(); if(p.alpha <= 0) state.particles.splice(i, 1); });
         state.texts.forEach((t, i) => { t.update(); t.draw(); if(t.alpha <= 0) state.texts.splice(i, 1); });
 
@@ -400,24 +384,19 @@
     }
 
     function handleCatch(it) {
-        const points = it.pts + (state.combo * 5);
-        state.score += points;
-        state.combo++;
-        playNote(300 + (state.combo * 20));
-        state.texts.push(new FloatingText(it.x, it.y - 20, it.label, it.color));
-        for(let i=0; i<12; i++) state.particles.push(new Particle(it.x, it.y, it.color));
-        
-        // Dificultad
+        state.score += it.pts + (state.combo * 5); state.combo++;
+        playNote(300 + (state.combo * 15));
+        state.texts.push(new FloatingText(it.x, it.y - 10, it.label, it.color));
+        for(let i=0; i<10; i++) state.particles.push(new Particle(it.x, it.y, it.color));
         state.speed = 2.5 + (state.score / 1000);
-        state.spawnRate = Math.max(350, 1000 - (state.score / 8));
+        state.spawnRate = Math.max(400, 1000 - (state.score / 8));
         updateUI();
     }
 
     function handleHitTrap() {
-        state.lives--;
-        state.combo = 0;
-        playNote(100, 0.4, 'sawtooth');
-        state.texts.push(new FloatingText(player.x + player.w/2, player.y - 20, '¡Disonancia!', '#ff5e57'));
+        state.lives--; state.combo = 0;
+        playNote(150, 0.4, 'sawtooth');
+        state.texts.push(new FloatingText(player.x + player.w/2, player.y - 20, '¡Silencio!', '#ff5e57'));
         for(let i=0; i<15; i++) state.particles.push(new Particle(player.x + player.w/2, player.y, '#ff5e57'));
         updateUI();
         if (state.lives <= 0) endGame();
@@ -427,23 +406,16 @@
         document.getElementById('score-ui').innerText = state.score;
         document.getElementById('lives-ui').innerText = '❤'.repeat(state.lives);
         document.getElementById('combo-ui').innerText = `x${state.combo}`;
-        
-        const tempos = ["Adagio", "Andante", "Allegro", "Presto", "VIVACE"];
-        const tidx = Math.min(tempos.length - 1, Math.floor(state.score / 600));
-        document.getElementById('tempo-ui').innerText = tempos[tidx];
+        const tempos = ["Adagio", "Andante", "Allegro", "Presto", "Vivace"];
+        document.getElementById('tempo-ui').innerText = tempos[Math.min(4, Math.floor(state.score / 600))];
     }
 
     window.initGame = function() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        state = { 
-            active: true, score: 0, lives: 3, combo: 0, 
-            items: [], particles: [], texts: [], 
-            speed: 2.5, spawnRate: 1000, lastSpawn: performance.now(), bgOffset: 0 
-        };
+        state = { active: true, score: 0, lives: 3, combo: 0, items: [], particles: [], texts: [], speed: 2.5, spawnRate: 1000, lastSpawn: performance.now(), bgOffset: 0 };
         document.getElementById('start-screen').style.display = 'none';
         document.getElementById('game-over').style.display = 'none';
-        updateUI();
-        requestAnimationFrame(loop);
+        updateUI(); requestAnimationFrame(loop);
     }
 
     function endGame() {
@@ -452,37 +424,24 @@
         document.getElementById('final-score').innerText = state.score;
     }
 
-    // --- CONTROLES ---
     function updatePlayerPos(clientX) {
         const rect = canvas.getBoundingClientRect();
-        // Factor de escala para que funcione bien si el CSS reduce el tamaño del canvas
         const scaleX = canvas.width / rect.width;
-        let mappedX = (clientX - rect.left) * scaleX;
-        
-        player.targetX = mappedX - player.w / 2;
-        
-        // Limitar bordes
+        player.targetX = ((clientX - rect.left) * scaleX) - player.w / 2;
         if (player.targetX < 0) player.targetX = 0;
         if (player.targetX > canvas.width - player.w) player.targetX = canvas.width - player.w;
     }
 
     canvas.addEventListener('mousemove', (e) => updatePlayerPos(e.clientX));
-    canvas.addEventListener('touchmove', (e) => {
-        updatePlayerPos(e.touches[0].clientX);
-        e.preventDefault();
-    }, {passive: false});
+    canvas.addEventListener('touchmove', (e) => { updatePlayerPos(e.touches[0].clientX); e.preventDefault(); }, {passive: false});
 
-    // Construcción del título decorativo
     const tDiv = document.getElementById('mainTitle');
     const colors = ['#4a90e2', '#ff5e57', '#ffc107', '#2ecc71', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
     "SINFONIA".split('').forEach((l, i) => {
         const s = document.createElement('div');
-        s.className = 'b-letter'; s.innerText = l;
-        s.style.backgroundColor = colors[i % colors.length];
-        s.style.animationDelay = (i * 0.1) + 's';
-        tDiv.appendChild(s);
+        s.className = 'b-letter'; s.innerText = l; s.style.backgroundColor = colors[i % colors.length];
+        s.style.animationDelay = (i * 0.1) + 's'; tDiv.appendChild(s);
     });
-
 </script>
 </body>
 </html>
