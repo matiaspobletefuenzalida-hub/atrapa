@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINFONÍA EN EL AIRE - VERSIÓN MAESTRA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4a90e2; 
+            --secondary: #ff5e57; 
+            --accent: #ffc107; 
+            --success: #2ecc71;
+            --purple: #9b59b6;
+            --glass: rgba(255, 255, 255, 0.9);
+            --fredoka: 'Fredoka One', cursive;
+            --nunito: 'Nunito', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            font-family: var(--nunito);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden; /* Permite bajar pero evita el movimiento lateral */
+        }
+
+        /* --- HEADER --- */
+        .app-header {
+            width: 100%; background: white; padding: 15px 0;
+            display: flex; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-bottom: 5px solid var(--primary);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-container {
+            width: 90%; max-width: 1000px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .app-logo { height: 55px; border-radius: 10px; }
+
+        .block-title { display: flex; gap: 4px; }
+        .b-letter {
+            width: 28px; height: 28px; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--fredoka); font-size: 16px;
+            border-radius: 6px; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2);
+            animation: jump 2s infinite ease-in-out;
+        }
+        @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .app-main {
+            padding: 40px 20px;
+            display: flex; flex-direction: column; align-items: center;
+            width: 100%; max-width: 1200px;
+        }
+
+        #game-board {
+            position: relative;
+            background: var(--glass);
+            border: 8px solid white;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            display: flex; gap: 20px; padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- PANELES LATERALES --- */
+        .side-panel { width: 160px; display: flex; flex-direction: column; gap: 15px; }
+        .widget {
+            background: white; padding: 15px; border-radius: 20px;
+            text-align: center; box-shadow: 0 5px 10px rgba(0,0,0,0.03);
+            border: 2px solid #f0f0f0;
+        }
+        .widget h3 { margin: 0 0 5px 0; font-family: var(--fredoka); font-size: 0.8rem; color: #999; text-transform: uppercase; }
+        .val { font-size: 1.8rem; font-weight: 900; color: var(--primary); }
+
+        /* --- CANVAS --- */
+        #canvas-wrapper {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 4px solid #eee;
+            background: #fff;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.05);
+        }
+        canvas { display: block; background: #fafafa; cursor: none; }
+
+        /* --- OVERLAYS --- */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.96);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 10; text-align: center; padding: 30px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white; border: none; padding: 20px 50px;
+            border-radius: 100px; font-family: var(--fredoka); font-size: 1.8rem;
+            cursor: pointer; box-shadow: 0 10px 0 #1e8449, 0 15px 30px rgba(46, 204, 113, 0.4);
+            transition: 0.2s;
+            animation: pulse-green 2s infinite;
+        }
+        .btn-start:hover { transform: scale(1.05); }
+        .btn-start:active { transform: translateY(8px); box-shadow: 0 2px 0 #1e8449; }
+
+        @keyframes pulse-green {
+            0% { transform: scale(1); box-shadow: 0 10px 0 #1e8449, 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 10px 0 #1e8449, 0 0 0 20px rgba(46, 204, 113, 0); }
+            100% { transform: scale(1); box-shadow: 0 10px 0 #1e8449, 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        /* --- FOOTER --- */
+        .app-footer { width: 100%; padding: 20px; background: white; text-align: center; margin-top: 40px; border-top: 2px solid #eee; }
+
+        /* Móvil */
+        @media (max-width: 900px) {
+            #game-board { flex-direction: column; width: 95vw; }
+            .side-panel { width: 100%; flex-direction: row; }
+            .widget { flex: 1; padding: 10px; }
+            .val { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="header-container">
+        <img src="logo2.jpg" class="app-logo" alt="Escuela">
+        <div class="title-container">
+            <div class="block-title" id="mainTitle"></div>
+        </div>
+        <img src="logo_header.png" class="app-logo" alt="SEA">
+    </div>
+</header>
+
+<main class="app-main">
+    <div id="game-board">
+        <aside class="side-panel">
+            <div class="widget">
+                <h3>Vidas</h3>
+                <div id="lives-ui" class="val" style="color: var(--secondary);">❤❤❤</div>
+            </div>
+            <div class="widget">
+                <h3>Combo</h3>
+                <div id="combo-ui" class="val">x1</div>
+            </div>
+        </aside>
+
+        <div id="canvas-wrapper">
+            <div id="start-screen" class="overlay">
+                <h1 style="font-family: var(--fredoka); color: var(--primary); font-size: 2.5rem; margin-bottom: 5px;">SINFONÍA EN EL AIRE</h1>
+                <p style="color: #666; font-weight: bold; margin-bottom: 30px;">Atrapa las notas musicales con tu logo.<br>¡Cuidado con los silencios ruidosos!</p>
+                <button class="btn-start" onclick="initGame()">¡COMENZAR!</button>
+            </div>
+
+            <div id="game-over" class="overlay" style="display:none;">
+                <h1 style="font-family: var(--fredoka); color: var(--secondary); font-size: 3rem;">CONCIERTO FINALIZADO</h1>
+                <div class="val" id="final-score" style="font-size: 4rem; margin: 20px 0;">0</div>
+                <button class="btn-start" onclick="initGame()" style="background: var(--primary); box-shadow: 0 10px 0 #2980b9;">REINTENTAR</button>
+            </div>
+
+            <canvas id="gameCanvas" width="450" height="550"></canvas>
+        </div>
+
+        <aside class="side-panel">
+            <div class="widget">
+                <h3>Puntos</h3>
+                <div id="score-ui" class="val">0</div>
+            </div>
+            <div class="widget">
+                <h3>Tempo</h3>
+                <div id="tempo-ui" class="val" style="font-size: 1.2rem;">Adagio</div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer class="app-footer">
+    <strong>SEMANA DE LA EDUCACIÓN ARTÍSTICA 2026</strong><br>
+    Escuela Santa Eugenia
+</footer>
+
+<script>
+    // --- MOTOR DE AUDIO ---
+    let audioCtx;
+    function playNote(freq, dur = 0.2, type = 'sine') {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + dur);
+    }
+
+    // --- CONFIGURACIÓN ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const playerImg = new Image(); playerImg.src = 'logo2.jpg';
+
+    const musicalItems = [
+        { char: '♩', pts: 10, label: '¡Negra!', color: '#4a90e2' },
+        { char: '♪', pts: 15, label: '¡Corchea!', color: '#9b59b6' },
+        { char: '♫', pts: 20, label: '¡Doble Corchea!', color: '#2ecc71' },
+        { char: '♬', pts: 30, label: '¡GALOPA!', color: '#e67e22', special: true },
+        { char: '𝅘𝅥𝅰', pts: 40, label: '¡SALTILLO!', color: '#f1c40f', special: true },
+        { char: '♭', pts: 15, label: '¡Bemol!', color: '#1abc9c' },
+        { char: '♯', pts: 15, label: '¡Sostenido!', color: '#34495e' }
+    ];
+    const traps = ['✖', '⚡', 'Ø'];
+
+    let state = {
+        active: false,
+        score: 0,
+        lives: 3,
+        combo: 0,
+        items: [],
+        particles: [],
+        texts: [],
+        speed: 2.5,
+        spawnRate: 1000,
+        lastSpawn: 0
+    };
+
+    const player = { x: 200, y: 460, w: 70, h: 70, targetX: 200 };
+
+    // --- CLASES ---
+    class FallingItem {
+        constructor() {
+            this.isTrap = Math.random() < 0.2;
+            const data = this.isTrap ? null : musicalItems[Math.floor(Math.random() * musicalItems.length)];
+            this.char = this.isTrap ? traps[Math.floor(Math.random() * traps.length)] : data.char;
+            this.pts = this.isTrap ? 0 : data.pts;
+            this.label = this.isTrap ? '¡Disonancia!' : data.label;
+            this.color = this.isTrap ? '#333' : data.color;
+            this.isSpecial = !this.isTrap && data.special;
+            this.x = Math.random() * (canvas.width - 40) + 20;
+            this.y = -50;
+            this.vel = state.speed + Math.random();
+            this.rot = 0;
+            this.rotV = (Math.random() - 0.5) * 0.1;
+        }
+        update() { this.y += this.vel; this.rot += this.rotV; }
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rot);
+            ctx.fillStyle = this.color;
+            ctx.font = `bold ${this.isSpecial ? '45px' : '35px'} Nunito`;
+            ctx.textAlign = 'center';
+            ctx.fillText(this.char, 0, 0);
+            ctx.restore();
+        }
+    }
+
+    class Particle {
+        constructor(x, y, color) {
+            this.x = x; this.y = y; this.color = color;
+            this.vx = (Math.random() - 0.5) * 10;
+            this.vy = (Math.random() - 0.5) * 10;
+            this.alpha = 1;
+        }
+        update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.03; }
+        draw() {
+            ctx.globalAlpha = Math.max(0, this.alpha);
+            ctx.fillStyle = this.color;
+            ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI*2); ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+    }
+
+    class FloatingText {
+        constructor(x, y, txt, color) {
+            this.x = x; this.y = y; this.txt = txt; this.color = color;
+            this.alpha = 1;
+        }
+        update() { this.y -= 1.5; this.alpha -= 0.02; }
+        draw() {
+            ctx.globalAlpha = Math.max(0, this.alpha);
+            ctx.fillStyle = this.color;
+            ctx.font = 'bold 20px Fredoka One';
+            ctx.textAlign = 'center';
+            ctx.fillText(this.txt, this.x, this.y);
+            ctx.globalAlpha = 1;
+        }
+    }
+
+    // --- CICLO DE JUEGO ---
+    function loop(time) {
+        if (!state.active) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Suavizar movimiento del jugador
+        player.x += (player.targetX - player.x) * 0.2;
+        if (playerImg.complete) {
+            ctx.drawImage(playerImg, player.x, player.y, player.w, player.h);
+        } else {
+            ctx.fillStyle = '#4a90e2'; ctx.fillRect(player.x, player.y, player.w, player.h);
+        }
+
+        // Aparecer items
+        if (time - state.lastSpawn > state.spawnRate) {
+            state.items.push(new FallingItem());
+            state.lastSpawn = time;
+        }
+
+        // Procesar items
+        state.items.forEach((it, i) => {
+            it.update(); it.draw();
+            // Colisión
+            if (it.y > player.y && it.y < player.y + player.h && it.x > player.x && it.x < player.x + player.w) {
+                if (it.isTrap) handleHitTrap();
+                else handleCatch(it);
+                state.items.splice(i, 1);
+            }
+            // Fuera de pantalla
+            else if (it.y > canvas.height + 50) {
+                if (!it.isTrap) { state.combo = 0; updateUI(); }
+                state.items.splice(i, 1);
+            }
+        });
+
+        // Partículas y Textos
+        state.particles.forEach((p, i) => { p.update(); p.draw(); if(p.alpha <= 0) state.particles.splice(i, 1); });
+        state.texts.forEach((t, i) => { t.update(); t.draw(); if(t.alpha <= 0) state.texts.splice(i, 1); });
+
+        requestAnimationFrame(loop);
+    }
+
+    function handleCatch(it) {
+        const points = it.pts + (state.combo * 5);
+        state.score += points;
+        state.combo++;
+        playNote(300 + (state.combo * 20));
+        state.texts.push(new FloatingText(it.x, it.y, it.label, it.color));
+        for(let i=0; i<10; i++) state.particles.push(new Particle(it.x, it.y, it.color));
+        
+        // Dificultad
+        state.speed = 2.5 + (state.score / 1000);
+        state.spawnRate = Math.max(400, 1000 - (state.score / 10));
+        updateUI();
+    }
+
+    function handleHitTrap() {
+        state.lives--;
+        state.combo = 0;
+        playNote(100, 0.4, 'sawtooth');
+        state.texts.push(new FloatingText(player.x + 35, player.y, '¡BOOM!', '#ff5e57'));
+        updateUI();
+        if (state.lives <= 0) endGame();
+    }
+
+    function updateUI() {
+        document.getElementById('score-ui').innerText = state.score;
+        document.getElementById('lives-ui').innerText = '❤'.repeat(state.lives);
+        document.getElementById('combo-ui').innerText = `x${state.combo}`;
+        
+        const tempos = ["Adagio", "Andante", "Allegro", "Presto", "VIVACE!"];
+        const tidx = Math.min(tempos.length - 1, Math.floor(state.score / 500));
+        document.getElementById('tempo-ui').innerText = tempos[tidx];
+    }
+
+    function initGame() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        state = { active: true, score: 0, lives: 3, combo: 0, items: [], particles: [], texts: [], speed: 2.5, spawnRate: 1000, lastSpawn: performance.now() };
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('game-over').style.display = 'none';
+        updateUI();
+        requestAnimationFrame(loop);
+    }
+
+    function endGame() {
+        state.active = false;
+        document.getElementById('game-over').style.display = 'flex';
+        document.getElementById('final-score').innerText = state.score;
+    }
+
+    // --- CONTROLES ---
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        player.targetX = (e.clientX - rect.left) - player.w/2;
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        player.targetX = (e.touches[0].clientX - rect.left) - player.w/2;
+        e.preventDefault();
+    }, {passive: false});
+
+    // Título Decorativo
+    const tDiv = document.getElementById('mainTitle');
+    "SINFONIA".split('').forEach((l, i) => {
+        const s = document.createElement('div');
+        s.className = 'b-letter'; s.innerText = l;
+        s.style.backgroundColor = ['#4a90e2', '#ff5e57', '#ffc107', '#2ecc71'][i % 4];
+        s.style.animationDelay = (i * 0.1) + 's';
+        tDiv.appendChild(s);
+    });
+</script>
+
+</body>
+</html>
